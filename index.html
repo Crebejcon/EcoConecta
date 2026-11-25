@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071b18">
+  <meta name="description" content="Encontre pontos de coleta e acompanhe o descarte responsável de eletrônicos.">
+  <title>EcoConecta | Descarte consciente</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#"><span class="brand-mark">♻</span><span>Eco<span>Conecta</span></span></a>
+  <nav><a href="#como-funciona">Como funciona</a><a href="#pontos">Pontos de coleta</a></nav>
+  <div class="account-actions"><button class="btn btn-ghost" id="login-open">Entrar</button><button class="btn btn-primary" id="signup-open">Criar conta</button><button class="btn btn-ghost hidden" id="logout-btn">Sair</button></div>
+</header>
+<main>
+<section class="hero">
+  <div class="hero-copy">
+    <span class="eyebrow">TECNOLOGIA COM RESPONSABILIDADE</span>
+    <h1>Seu eletrônico antigo pode ter <em>um novo destino.</em></h1>
+    <p>Encontre locais de coleta, registre seus descartes e acompanhe cada etapa. Um futuro mais limpo começa com uma atitude.</p>
+    <div class="hero-actions"><a class="btn btn-primary" href="#pontos">Encontrar coleta <span>↗</span></a><button class="btn btn-outline" id="hero-register">Registrar eletrônico</button></div>
+    <div class="hero-note"><span class="status-dot"></span> Descarte correto. Impacto positivo.</div>
+  </div>
+  <div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="device">⌁</div><div class="leaf leaf-one">✦</div><div class="leaf leaf-two">✧</div><div class="art-caption">REUTILIZE · RECICLE · TRANSFORME</div></div>
+</section>
+<section class="stats"><div><strong>♻</strong><span>Descarte consciente</span></div><div><strong>⌖</strong><span>Pontos próximos</span></div><div><strong>✓</strong><span>Acompanhamento simples</span></div></section>
+<section class="section" id="como-funciona">
+  <div class="section-heading"><span class="eyebrow">PASSO A PASSO</span><h2>Fazer a diferença é simples.</h2><p>Use a plataforma para encontrar um destino adequado para seus eletrônicos.</p></div>
+  <div class="steps"><article class="step"><span>01</span><h3>Encontre</h3><p>Consulte os pontos de coleta disponíveis na sua região.</p></article><article class="step"><span>02</span><h3>Registre</h3><p>Entre na sua conta e informe qual eletrônico deseja descartar.</p></article><article class="step"><span>03</span><h3>Acompanhe</h3><p>Veja o andamento do registro e as atualizações de status.</p></article></div>
+</section>
+<section class="section points-section" id="pontos">
+  <div class="section-heading row-heading"><div><span class="eyebrow">DESCARTE PERTO DE VOCÊ</span><h2>Pontos de coleta</h2><p>Consulte os locais cadastrados na plataforma.</p></div><button class="btn btn-outline" id="refresh-points">↻ Atualizar</button></div>
+  <div class="search-row"><input id="point-search" type="search" placeholder="Pesquise por cidade, bairro ou nome do local"><span id="points-count" class="muted"></span></div>
+  <div id="points-list" class="point-grid"><div class="empty-state">Carregando pontos de coleta...</div></div>
+</section>
+<section class="section dashboard hidden" id="user-area">
+  <div class="section-heading"><span class="eyebrow">SUA CONTA</span><h2>Área do usuário</h2><p>Registre um eletrônico e acompanhe seu histórico.</p></div>
+  <div class="dashboard-grid">
+    <form id="electronics-form" class="panel">
+      <h3>Novo registro</h3>
+      <label>Tipo de eletrônico<select id="device-type" required><option value="">Selecione</option><option>Celular</option><option>Computador ou notebook</option><option>Tablet</option><option>Televisão ou monitor</option><option>Carregador ou cabo</option><option>Pilha ou bateria</option><option>Outro</option></select></label>
+      <label>Quantidade<input id="device-quantity" type="number" min="1" max="100" value="1" required></label>
+      <label>Estado do eletrônico<select id="device-condition" required><option value="">Selecione</option><option> funcionando</option><option>Com defeito</option><option>Quebrado</option><option>Não sei informar</option></select></label>
+      <label>Cidade<input id="device-city" maxlength="80" required placeholder="Sua cidade"></label>
+      <label>Bairro<input id="device-neighborhood" maxlength="80" placeholder="Seu bairro"></label>
+      <label>Observações<textarea id="device-notes" rows="3" maxlength="500" placeholder="Informações adicionais (opcional)"></textarea></label>
+      <button class="btn btn-primary full" type="submit">Enviar registro</button><p class="form-message" id="electronics-message" role="status"></p>
+    </form>
+    <div class="panel"><div class="panel-title"><h3>Meu histórico</h3><button class="text-button" id="refresh-history">Atualizar</button></div><div id="history-list" class="history-list"><p class="muted">Entre na sua conta para visualizar.</p></div></div>
+  </div>
+  <div class="panel notifications-panel"><h3>Notificações</h3><div id="notifications-list"><p class="muted">As atualizações dos seus registros aparecerão aqui.</p></div></div>
+</section>
+<section class="section admin-section hidden" id="admin-area">
+  <div class="section-heading"><span class="eyebrow">ACESSO RESTRITO</span><h2>Painel administrativo</h2><p>Gerencie registros e pontos de coleta cadastrados.</p></div>
+  <div class="panel"><h3>Registros recebidos</h3><div id="admin-records" class="table-wrap">Carregando...</div></div>
+  <div class="panel admin-add"><h3>Adicionar ponto de coleta</h3><form id="point-form" class="admin-form">
+    <label>Nome<input id="point-name" required maxlength="120"></label><label>Cidade<input id="point-city" required maxlength="80"></label><label>Bairro<input id="point-neighborhood" maxlength="80"></label><label>Endereço<input id="point-address" required maxlength="180"></label><label>Materiais aceitos<input id="point-materials" placeholder="Celulares, pilhas, computadores..." maxlength="250"></label><label>Link de localização (opcional)<input id="point-url" type="url" placeholder="https://maps.google.com/..."></label><button class="btn btn-primary" type="submit">Adicionar ponto</button>
+  </form><p class="form-message" id="point-message" role="status"></p></div>
+</section>
+</main>
+<footer><a class="brand" href="#"><span class="brand-mark">♻</span><span>Eco<span>Conecta</span></span></a><p>Pequenas atitudes, grandes mudanças.</p><small>© <span id="year"></span> EcoConecta</small></footer>
+<div class="modal hidden" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-title"><div class="modal-card"><button class="modal-close" id="modal-close" aria-label="Fechar">×</button><span class="eyebrow">BEM-VINDO AO ECOCONECTA</span><h2 id="auth-title">Entre na sua conta</h2><p id="auth-description" class="muted">Acesse seus registros e acompanhe as atualizações.</p>
+  <form id="auth-form"><label id="name-wrap" class="hidden">Nome<input id="auth-name" maxlength="100" autocomplete="name"></label><label>E-mail<input id="auth-email" type="email" required autocomplete="email"></label><label>Senha<input id="auth-password" type="password" minlength="8" required autocomplete="current-password"></label><button class="btn btn-primary full" id="auth-submit" type="submit">Entrar</button><p id="auth-message" class="form-message" role="status"></p></form>
+  <button class="text-button switch-auth" id="auth-switch">Ainda não tem conta? Criar conta</button>
+</div></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body></html>
