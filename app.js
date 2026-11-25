@@ -1,6 +1,6 @@
 // Configure com os dados públicos do seu projeto Supabase.
-const SUPABASE_URL = "COLE_A_URL_DO_SEU_PROJETO";
-const SUPABASE_ANON_KEY = "COLE_A_CHAVE_ANON_PUBLIC";
+const SUPABASE_URL = "https://ienmjergjkcytnvpfkkj.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_6rUgwSO_siYo78W1vV3ngw_Pi7OL2bf";
 const configured = SUPABASE_URL.startsWith("https://") && !SUPABASE_URL.includes("COLE_") && !SUPABASE_ANON_KEY.includes("COLE_");
 const db = configured && window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 let currentUser = null, isAdmin = false, authMode = "login", allPoints = [];
